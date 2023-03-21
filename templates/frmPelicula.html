@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--dataTables-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.3/css/jquery.dataTables.min.css">
+    <script src="../static/js/app.js"></script>
+    <title>gestion Pelicula</title>
+</head>
+<body>
+    <div class="container">
+        <div class="w-50" style="margin: 0 auto">
+            <h3 class="text-center fw-bold">GESTION PELICULA</h3>
+            <form action="/agregar" method="post" id="frmPelicula" enctype="multipart/form-data" class="form-control bg-info">
+                <div>
+                    <label for="txtCodigo" class="fw-bold">Codigo: </label>
+                    <input type="text" name="txtCodigo" id="txtCodigo"class="form-control">
+                </div>
+                <div>
+                    <label for="txtTitulo" class="fw-bold">titulo: </label>
+                    <input type="text" name="txtTitulo" id="txtTitulo"class="form-control">
+                </div>
+                <div>
+                    <label for="txtDuracion" class="fw-bold">duracion(minuto): </label>
+                    <input type="number" name="txtDuracion" id="txtDuracion"class="form-control">
+                </div>
+                <div>
+                    <label for="txtDirector" class="fw-bold">Director: </label>
+                    <input type="text" name="txtDirector" id="txtDirector"class="form-control">
+                </div>
+                <div>
+                    <label for="txtFechaLanzamiento" class="fw-bold">Fecha de Lanzamiento: </label>
+                    <input type="date" name="txtFechaLanzamiento" id="txtFechaLanzamiento"class="form-control">
+                </div>
+                <div>
+                    <label for="cbGenero" class="fw-bold">Genero:</label>
+                    <select name="cbGenero" id="cbGenero" class="form-select">
+                        <option value="0">Seleccione</option>
+                        {% for genero in listaGeneros%}
+                            <option value="{{genero[0]}}">{{genero[1]}}</option>
+                        {%endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label for="txtResumen" class="fw-bold">Resumen: </label>
+                    <textarea name="txtResumen" id="txtResumen" cols="90" rows="5" class="form-control" ></textarea>
+                </div>
+                <div>
+                    <label for="imagen">Imagen: </label>
+                    <input type="file" class="form-control" accept=".jpg" name="fileImagen" id="fileImagen">
+                </div>
+                <br>
+                <div class="d-flex justify-content-around">
+                    <button class="btn btn-success" type="button" onclick="agregarPelicula()">AGREGAR</button>
+                    <button class="btn btn-success" type="button" onclick="consultarPorCodigo()">CONSULTAR</button>
+                    <button class="btn btn-success" type="button" onclick="actualizar()">ACTUALIZAR</button>
+                    <button class="btn btn-danger" type="button" onclick="modalSweetAlert()">ELIMINAR</button>
+                </div>
+                <input type="hidden" name="idPelicula" id="idPelicula">
+            </form>
+            <div id="mensaje" class="text-center fw-bold">{{mensaje}}</div>
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+            <div class="table-responsive">
+                <table class="table table-info table-striped" id="tblPeliculas">
+                    <thead>
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Titulo</th>
+                            <th>Duracion</th>
+                            <th>Director</th>
+                            <th>Fecha de Lanzamiento</th>
+                            <th>Resumen</th>
+                            <th>Genero</th>
+                            <th>Imagen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="datosPeliculas">
+                        {% for p in listaPeliculas%} 
+                            <tr>
+                                <td>{{p[1]}}</td>
+                                <td>{{p[2]}}</td>
+                                <td>{{p[3]}}</td>
+                                <td>{{p[4]}}</td>
+                                <td>{{p[5]}}</td>
+                                <td>{{p[6]}}</td>
+                                <td>{{p[8]}}</td>
+                                <td class="text-center">
+                                    <img src="../static/imagenes/{{p[0]}}.jpg" alt="" width="100" height="100">
+                                </td>
+                            </tr>
+                        {%endfor%}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
